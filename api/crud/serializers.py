@@ -8,8 +8,6 @@ class CredentialSerializer(serializers.Serializer):
     secret_key = serializers.CharField(max_length=120)
 
     def create(self, validated_data):
-        print('self',self)
-        print('validated_data',validated_data)
         return Credential.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
