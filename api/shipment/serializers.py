@@ -6,7 +6,15 @@ from .models import ShipmentItem, ShipmentRetailer
 class ShipmentRetailerSerializer(serializers.Serializer):
     class Meta:
         model = ShipmentRetailer
-        fields = ("fulfilment_method", "shipment_id", "shipment_date", "transport_id")
+        fields = ("shipment_id", "shipment_date", "transport_id")
+
+    # def create(self, validated_data):
+    #     answer, created = ShipmentRetailer.objects.update_or_create(
+    #     question=validated_data.get('question', None),
+    #     defaults={'answer': validated_data.get('answer', None)})
+    #     return answer
+    def create(self, validated_data):
+            return ShipmentRetailer.objects.create(**validated_data)
 
 
 class ShipmentItemSerializer(serializers.Serializer):
@@ -22,4 +30,5 @@ class ShipmentItemSerializer(serializers.Serializer):
             "title",
             "quantity",
             "offer_price",
+            "fulfilment_method"
         )
