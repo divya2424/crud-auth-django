@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TOKEN_URL = "https://login.bol.com/token?grant_type=client_credentials"
+
+ACCEPT = ["application/json", "application/vnd.retailer.v3+json"]
+CONTENT_TYPE = "application/x-www-form-urlencoded"
 
 # Application definition
 
@@ -34,6 +38,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "crud.apps.CrudConfig",
     "shipment.apps.ShipmentConfig",
+    "authenticate.apps.AuthenticateConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

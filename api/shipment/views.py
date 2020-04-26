@@ -16,7 +16,7 @@ class ShipmentView(APIView):
         # Create an shipment from the above data
         serializer = ShipmentItemSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            cred_saved = serializer.save()
+            data = serializer.data
         return Response(
             {"success": "Credential '{}' created successfully".format(cred_saved)}
         )
