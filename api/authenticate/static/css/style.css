@@ -1,0 +1,14 @@
+.label-text {
+  font-size: 20px;
+  margin-left: 20%;
+}
+
+.align-box {
+  padding-top: 5%;
+  max-width: 500px;
+  margin-left: 23%;
+}
+
+.message-box {
+  display: inline-flex;
+}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<h1 style="text-align: center;">
+  Generate Your Token Here!
+</h1>
+{% if error is True %}
+
+<div class="align-box">
+  <form name="form" action="{% url 'authenticate:login' %}" method="POST">
+    {% csrf_token %}
+
+    <div style="max-width: 500px;">
+      <span>
+        Client ID:
+        <input
+          required
+          type="text"
+          placeholder="xxx-xxx-xxx"
+          name="client_key"
+        />
+      </span>
+    </div>
+
+    <br />
+
+    <div style="max-width: 500px;">
+      <span>
+        Secret Key:
+        <input
+          required
+          type="text"
+          placeholder="xxx-xxx-xxx"
+          name="secret_key"
+        />
+      </span>
+    </div>
+
+    <br />
+
+    <div style="max-width: 500px;">
+      <center>
+        <button
+          style="
+            border: 0px;
+            background-color: #4285f4;
+            margin-top: 8%;
+            height: 35px;
+            width: 80%;
+          "
+          type="submit"
+          value="Login"
+        >
+          <strong>Login</strong>
+        </button>
+      </center>
+    </div>
+  </form>
+  <div>
+    <!-- <p style="max-width: 200px; text-align: center;">{{access_token}}</p> -->
+    <p style="max-width: 500px; color: red; text-align: center;">{{msg}}</p>
+  </div>
+  {% else %}
+  <p style="max-width: 500px; color: Blue; text-align: center; margin: 20%;">
+    {{msg}}
+  </p>
+  {% endif %}
+</div>
+{% endblock content%}
