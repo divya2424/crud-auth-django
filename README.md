@@ -21,3 +21,17 @@ Steps for migration :-
 To create superuser
 
 1.  python manage.py createsuperuser
+
+Steps to start and install a RabbitMQServer"
+Install -
+
+1. Stop - sudo service rabbitmq-server stop
+2. Start -sudo service rabbitmq-server start
+3. Restart - sudo service rabbitmq-server restart
+4. Status - sudo service rabbitmq-server status
+
+Steps to start celery and check :
+
+1. celery -A a worker -l beat -l info
+2. celery worker -A scheduler --loglevel=info
+3. celery -A api flower
