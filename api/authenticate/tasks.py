@@ -15,6 +15,7 @@ def celery_task(counter):
 
 @periodic_task(run_every=(crontab(minute="*/1")))
 def task_example():
+    print('jdsdfvbsij')
     logger.info("Task started")
     # add code
     logger.info("Task finished")

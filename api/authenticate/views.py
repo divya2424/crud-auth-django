@@ -7,7 +7,7 @@ from django.conf import settings
 import requests
 import json
 from django.shortcuts import HttpResponse
-from .tasks import task_example
+from .tasks import task_example,celery_task
 
 
 
@@ -86,8 +86,8 @@ class FetchToken(APIView):
 
 def celery_view(request):
     print('hello')
-    task_example()
-    # for counter in range(2):
-    #     print('counter',counter)
-    #     task_example.delay(counter)
+    # task_example()
+    for counter in range(2):
+        print('counter',counter)
+        celery_task.delay(counter)
     return HttpResponse("FINISH PAGE LOAD")

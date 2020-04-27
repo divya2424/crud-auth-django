@@ -7,11 +7,13 @@ from django.conf import settings
 import requests
 import json
 
+
+
+
 headers = {
     "Accept": settings.ACCEPT[1],
     "Authorization": "Bearer eyJraWQiOiJyc2EyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI2OWJkODNmMS0xMTcyLTRiMDItODIxYS1iNWEyYWY1YTMyZGEiLCJhenAiOiI2OWJkODNmMS0xMTcyLTRiMDItODIxYS1iNWEyYWY1YTMyZGEiLCJjbGllbnRuYW1lIjoiZGV2ZWxvcGVyLWhpcmUiLCJpc3MiOiJodHRwczpcL1wvbG9naW4uYm9sLmNvbSIsInNjb3BlcyI6IlJFVEFJTEVSIiwiZXhwIjoxNTg3OTQxOTkwLCJpYXQiOjE1ODc5NDE2OTAsImFpZCI6IkNMTlRDOmJlMmI3MDE2LTczNDYtYzM2ZS1kMTM4LTc3NzA4MTczZjdiYyBTTFI6MTM2Mzg1OCIsImp0aSI6IjA3ZDY4YmI2LTEwMTEtNDA0Ni1iNmIxLTczYjVjNmMyZjBlMSJ9.Byfw9rjTf-WNEqEOlSBYBPkJz1V6RPIf5K0CpauLM65VpyRn_OoSzZJWhLVyLkNufv1DEI1T4aWkWCxyZA-hKmkGvBvTnDDOQPgytCbdf3XFmCvZXNlZY1Fx4winBGJX6eqMsNh9Vq3U45SVEzHKHBWhmDSPbUBCsTEDrcxfpy24Rp123NPeXJl-3EEm6hILfGio_81lbMkn4OpGpenJE0xj5aYUL9wi3q9-eTPcZ-mxtYeM99BVDahEPJehf8OkDsnZani0sz-sbGiR3LW06BHSTOxRpu1wryLrJA74s1jl_SeAlgoa3GLO-sE2PN2eX_9oH9nwcxfvcJZVcdUDvw"
 }
-
 
 def fetchShipment(fulfilment_method,pageNo):
     URL = (settings.SHIPMENT_URL + "?fulfilment-method="+fulfilment_method+"&page="+ pageNo)
@@ -59,6 +61,7 @@ def getShipment():
     return shipmentArr
     
 
+# FIFTEEN_MINUTES = 900
 
 class ShipmentView(APIView):
     def get(self, request):
