@@ -35,3 +35,4 @@ Steps to start celery and check :
 1. celery -A a worker -l beat -l info
 2. celery worker -A scheduler --loglevel=info
 3. celery -A api flower
+4. celery -A api beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
