@@ -6,6 +6,9 @@ from .serializers import TokenSerializer
 from django.conf import settings
 import requests
 import json
+from django.shortcuts import HttpResponse
+from .tasks import task_example
+
 
 
 headers = {
@@ -78,3 +81,13 @@ class FetchToken(APIView):
             return Response(
                 {"error": True, "status_code": 400, "msg": "Internal Server Error",}
             )
+
+
+
+def celery_view(request):
+    print('hello')
+    task_example()
+    # for counter in range(2):
+    #     print('counter',counter)
+    #     task_example.delay(counter)
+    return HttpResponse("FINISH PAGE LOAD")
