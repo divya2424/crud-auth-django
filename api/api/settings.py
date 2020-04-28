@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 TOKEN_URL = "https://login.bol.com/token?grant_type=client_credentials"
 SHIPMENT_URL = "https://api.bol.com/retailer/shipments"
+SHIPMENT_ARR = ['FBB','FBR']
 
 ACCEPT = ["application/json", "application/vnd.retailer.v3+json"]
 CONTENT_TYPE = "application/x-www-form-urlencoded"
@@ -77,6 +78,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = "api.wsgi.application"
 

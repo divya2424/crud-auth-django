@@ -11,7 +11,12 @@ from .models import Credential
 
 class CredentialView(APIView):
     def get(self, request, *args, **kwargs):
-        cred = Credential.objects.all()
+        pk = self.kwargs.get('pk')
+        print('pk',pk)
+        if pk is None:
+            cred = Credential.objects.all()
+        else:
+            cred = Credential.objects.filter(pk=pk)        
         # the many param informs the serializer that it will be serializing more than a single credential.
         serializer = CredentialSerializer(cred, many=True)
         return Response({"cred": serializer.data})
@@ -24,7 +29,9 @@ class CredentialView(APIView):
         serializer = CredentialSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             cred_saved = serializer.save()
-        return Response({"success": "Credential '{}' created successfully".format(cred_saved)})
+            credential,created = cred_saved
+            msg =  "created successfully" if created == True else "updated successfully"
+        return Response({"success": "Credential '{}' ".format(credential) + msg })
 
     def put(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
@@ -33,6 +40,7 @@ class CredentialView(APIView):
         serializer = CredentialSerializer(instance=saved_cred, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             cred_saved = serializer.save()
+
         return Response({"success": "Credential '{}' updated successfully".format(cred_saved.id)})
 
     def delete(self, request, *args, **kwargs):

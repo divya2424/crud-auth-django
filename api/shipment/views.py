@@ -6,7 +6,7 @@ from .serializers import ShipmentItemSerializer, ShipmentRetailerSerializer
 from django.conf import settings
 import requests
 import json
-from .tasks import fetchShipment
+from .tasks import fetchShipment,immediate_load
 
 
 
@@ -30,39 +30,38 @@ class ShipmentView(APIView):
         pk = self.kwargs.get('pk')
         if pk is None:
             shipment = ShipmentRetailer.objects.all()
+            if len(shipment) > 0:
+                serializer = ShipmentRetailerSerializer(shipment, many=True)
+                return Response({"error": False, "status_code": 200,"data": serializer.data,"msg": "Data Fetched Successfully"})
+
+            else:
+                token = request.session.get('token')
+                if(token is not None):
+                    try:
+                        kwargs['pageNo'] = "1"
+                        kwargs['token'] = request.session.get('token')
+                        kwargs['client_key'] = request.session.get('client_key')
+                        kwargs['secret_key'] = request.session.get('secret_key')
+                        shipment_key = settings.SHIPMENT_ARR
+                        if len(shipment_key) > 0:
+                            for key in shipment_key:
+                                kwargs['fulfilment_method'] = key
+                                immediate_load.delay(*args, **kwargs)
+                        shipmentArr = getShipment()
+                        return Response(
+                            {"error": False, "status_code": 200,"data": shipmentArr, "msg": "Data Fetched Successfully",})
+                    except Exception as e:
+                        print('e',e)
+                        return Response(
+                        {"error": True, "status_code": 400, "msg": "Internal Server Error",})
+                else:
+                    return Response(
+                            {"error": True, "status_code": 400, "msg": "Token Not Found! Generate using Login.",}
+                        )
+                
             # the many param informs the serializer that it will be serializing more than a single ShipmentRetailer.
         else :
             shipment = ShipmentRetailer.objects.filter(pk=pk)
-        serializer = ShipmentRetailerSerializer(shipment, many=True)
-        return Response({"data": serializer.data})
+            serializer = ShipmentRetailerSerializer(shipment, many=True)
+            return Response({"error": False, "status_code": 200,"data": serializer.data,"msg": "Data Fetched Successfully"})
             
-
-    def post(self,request,*args, **kwargs):
-        token = request.session.get('token')
-        if(token is not None):
-            try:
-                kwargs['fulfilment_method'] = 'FBR'
-                kwargs['pageNo'] = "1"
-                kwargs['token'] = request.session.get('token')
-                kwargs['client_key'] = request.session.get('client_key')
-                kwargs['secret_key'] = request.session.get('secret_key')
-                type_fbr = fetchShipment(*args, **kwargs)
-                
-                kwargs['fulfilment_method'] = 'FBB'
-                type_fbb = fetchShipment(*args, **kwargs)
-                shipmentArr = getShipment()
-                return Response(
-                    {"error": False, "status_code": 200,"data": shipmentArr, "msg": "Data Fetched Successfully",})
-            except Exception as e:
-                print('e',e)
-                return Response(
-                {"error": True, "status_code": 400, "msg": "Internal Server Error",}
-            )
-        else:
-            return Response(
-                    {"error": True, "status_code": 400, "msg": "Token Not Found! Generate using Login.",}
-                )
-                
-
-
-

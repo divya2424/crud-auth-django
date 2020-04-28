@@ -111,6 +111,9 @@ def fetchShipment(*args, **kwargs):
 
     
 
+
+
+
 @periodic_task(run_every=(crontab(minute=0,hour='*/5')),name="load_shipment")
 def load_shipment(*args, **kwargs):
     credential =  Credential.objects.all()[:1].get()
@@ -128,13 +131,26 @@ def load_shipment(*args, **kwargs):
         response = json.loads(response.text)
         kwargs['token'] = response["token_type"] + " " + response["access_token"]
         logger.info("Task started",'eifiueshfieu')
-        kwargs['fulfilment_method'] = 'FBB'
-        kwargs['pageNo'] = '1'
-        x = fetchShipment(*args, **kwargs)
-        kwargs['fulfilment_method'] = 'FBR'
-        y = fetchShipment(*args, **kwargs)
+        shipmentArr = settings.SHIPMENT_ARR
+        if len(shipmentArr) > 0:
+            for key in shipmentArr:
+                kwargs['pageNo'] = "1"
+                kwargs['fulfilment_method'] = key
+                fetchShipment(*args, **kwargs)
         logger.info('Task Ended')
         return '{}No occured Done!'
 
     else:
         return '{}Error occured Done!'
+
+
+
+@shared_task(name="immediate_loads")
+def immediate_load(*args,**kwargs):
+    shipment = ShipmentRetailer.objects.all()
+    if len(shipment) > 0:
+        return;
+    else:
+        load_shipment(*args, **kwargs)
+
+immediate_load.apply_async()
