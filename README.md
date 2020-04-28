@@ -2,7 +2,7 @@
 
 Basic CRUD and authentication using django
 
-Steps to start the project and create enviornment :-
+# Steps to start the project and create enviornment :-
 
 1. virtualenv --python=python3 venv
 2. source venv/bin/activate
@@ -13,7 +13,7 @@ Steps to start the project and create enviornment :-
    )
 4. python manage.py runserver (Run the server)
 
-Steps for migration :-
+# Steps for migration :-
 
 1. python manage.py makemigrations
 2. python manage.py migrate
@@ -22,18 +22,18 @@ To create superuser
 
 1.  python manage.py createsuperuser
 
-Steps to start and install a RabbitMQServer"
-Install -
+# Steps to start and install a RabbitMQServer"
+Install - From the main documentation
 
 1. Stop - sudo service rabbitmq-server stop
 2. Start -sudo service rabbitmq-server start
 3. Restart - sudo service rabbitmq-server restart
 4. Status - sudo service rabbitmq-server status
 
-Steps to start celery and check :
+# Steps to start celery and check :
 
 1. celery -A api worker -l beat -l info
 2. celery worker -A api --loglevel=info
 3. celery -A api flower
 4. celery -A api beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-   (After installing celery-beat remeber to run python manage.py migrate to get the tables in sync with your db)
+#   (After installing celery-beat remeber to run python manage.py migrate to get the tables in sync with your db)
