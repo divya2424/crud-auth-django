@@ -145,7 +145,7 @@ def load_shipment(*args, **kwargs):
 
 
 
-@shared_task(name="immediate_loads")
+@shared_task(name="immediate_loads", max_retries=9)
 def immediate_load(*args,**kwargs):
     shipment = ShipmentRetailer.objects.all()
     if len(shipment) > 0:
@@ -153,4 +153,4 @@ def immediate_load(*args,**kwargs):
     else:
         load_shipment(*args, **kwargs)
 
-immediate_load.apply_async(expires=120)
+immediate_load.apply_async(expires=60,queue='priority.high')
