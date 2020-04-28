@@ -26,21 +26,16 @@ def getShipment():
     return shipmentArr
     
 class ShipmentView(APIView):
-    def get(self, request):
-        try:
-            shipmentArr = getShipment()
-            if len(shipmentArr) > 0:                
-                return Response(
-                {"error": False, "status_code": 200,"data": shipmentArr, "msg": "Data Fetched Successfully",})
-            else:
-                shipmentArr = []
-                return Response(
-                {"error": False, "status_code": 200,"data": shipmentArr, "msg": "No Data Found",})
-        except Exception as e:
-            print('e',e)
-            return Response(
-                {"error": True, "status_code": 400, "msg": "Internal Server Error",}
-            )
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        if pk is None:
+            shipment = ShipmentRetailer.objects.all()
+            # the many param informs the serializer that it will be serializing more than a single ShipmentRetailer.
+        else :
+            shipment = ShipmentRetailer.objects.filter(pk=pk)
+        serializer = ShipmentRetailerSerializer(shipment, many=True)
+        return Response({"data": serializer.data})
+            
 
     def post(self,request,*args, **kwargs):
         token = request.session.get('token')

@@ -4,17 +4,11 @@ from .models import ShipmentItem, ShipmentRetailer
 
 
 class ShipmentRetailerSerializer(serializers.Serializer):
-    class Meta:
-        model = ShipmentRetailer
-        fields = ("shipment_id", "shipment_date", "transport_id")
+    id = serializers.IntegerField()
+    shipment_id = serializers.IntegerField()
+    shipment_date = serializers.DateTimeField()
+    transport_id = serializers.IntegerField()
 
-    # def create(self, validated_data):
-    #     answer, created = ShipmentRetailer.objects.update_or_create(
-    #     question=validated_data.get('question', None),
-    #     defaults={'answer': validated_data.get('answer', None)})
-    #     return answer
-    def create(self, validated_data):
-            return ShipmentRetailer.objects.create(**validated_data)
 
 
 class ShipmentItemSerializer(serializers.Serializer):

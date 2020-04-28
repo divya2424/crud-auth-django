@@ -10,7 +10,7 @@ from .models import Credential
 
 
 class CredentialView(APIView):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         cred = Credential.objects.all()
         # the many param informs the serializer that it will be serializing more than a single credential.
         serializer = CredentialSerializer(cred, many=True)
