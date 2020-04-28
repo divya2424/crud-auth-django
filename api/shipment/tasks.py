@@ -111,7 +111,7 @@ def fetchShipment(*args, **kwargs):
 
     
 
-@periodic_task(run_every=(crontab(minute="*/1")),name="load_shipment")
+@periodic_task(run_every=(crontab(minute=0,hour='*/5')),name="load_shipment")
 def load_shipment(*args, **kwargs):
     credential =  Credential.objects.all()[:1].get()
     kwargs['client_key'] = credential.client_key
