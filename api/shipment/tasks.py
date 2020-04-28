@@ -153,4 +153,4 @@ def immediate_load(*args,**kwargs):
     else:
         load_shipment(*args, **kwargs)
 
-immediate_load.apply_async()
+immediate_load.apply_async(expires=120)
