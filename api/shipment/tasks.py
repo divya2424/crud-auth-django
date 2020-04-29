@@ -8,7 +8,7 @@ from shipment.models import ShipmentRetailer, ShipmentItem
 import requests
 import json
 from django.conf import settings
-
+import time
 
 
 
@@ -108,6 +108,7 @@ def fetchShipment(*args, **kwargs):
                         shipmentItem = ShipmentItem.objects.create(shipment=shipment,order_id=order_id,order_item_id=order_item_id,fulfilment_method=kwargs['fulfilment_method'])
             i = i + 1
             kwargs['pageNo'] = str(i)
+            time.sleep(1)
             res = fetchShipment(*args, **kwargs)
             return "Data added"
         else:
