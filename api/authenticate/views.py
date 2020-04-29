@@ -88,23 +88,6 @@ def celery_view(request,*args, **kwargs):
     # return HttpResponse("FINISH PAGE LOAD")
 
 
-# def logged(func):
-#     def with_logging(request,*args, **kwargs):
-#         print('>>>>>>>>>',request.session)
-#         request.session['zub'] = 123
-#         print(request.session.get('zub'),'???')
-#         print(func.__name__ + " was called")
-#         # args('first')
-#         # kwargs.append({'dude':'cool'})
-#         kwargs['dude'] = 'cool'
-#         return func(*args, **kwargs)
-#     return with_logging
-
-
-def hellocheck(*args, **kwargs):
-   print('mathhhhhhhhhhhhhhhhhhh',kwargs,args)
-   return HttpResponse("FINISH PAGE LOAD")
-
 
 class TestFailed(Exception):
     def __init__(self, m):
