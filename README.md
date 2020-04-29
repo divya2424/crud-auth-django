@@ -1,6 +1,6 @@
 # crud-auth-django
 
-Basic CRUD and authentication using django
+Basic CRUD and authentication using external API in DJANGO. Integrated Celery which is used to perform an asynchronous task queue based on distributed message passing. Task queues are used as a strategy to distribute the workload between threads/machines.To work with Celery, we also need to install RabbitMQ because Celery requires an external solution to send and receive messages. Those solutions are called message brokers
 
 # Steps to start the project and create enviornment :-
 
@@ -23,10 +23,12 @@ To create superuser
 1.  python manage.py createsuperuser
 
 # Steps to start and install a RabbitMQServer"
-Install - From the main documentation
+# Install
+1. From the main documentation
 
-1. Stop - sudo service rabbitmq-server stop
-2. Start -sudo service rabbitmq-server start
+# start/stop the server
+1. Start -sudo service rabbitmq-server start 
+2. Stop - sudo service rabbitmq-server stop
 3. Restart - sudo service rabbitmq-server restart
 4. Status - sudo service rabbitmq-server status
 
@@ -37,3 +39,5 @@ Install - From the main documentation
 3. celery -A api flower
 4. celery -A api beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
 #   (After installing celery-beat remeber to run python manage.py migrate to get the tables in sync with your db)
+
+
