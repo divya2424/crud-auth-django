@@ -24,7 +24,9 @@ from .tasks import fetchShipment,immediate_load
 #     arr.append(obj)
                     
 
-
+'''
+hjh
+'''
 class StandardResultsSetPagination(pagination.PageNumberPagination):
     page_size = 3
     page_size_query_param = 'page_size'
@@ -33,3 +35,11 @@ class ShipmentView(generics.ListAPIView):
     queryset = ShipmentRetailer.objects.all()
     serializer_class = ShipmentRetailerSerializer
     pagination_class = StandardResultsSetPagination
+
+
+class ShipmentListing(APIView):
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        shipment = ShipmentRetailer.objects.filter(pk=pk)
+        serializer = ShipmentRetailerSerializer(shipment, many=True)
+        return Response({"error": False, "status_code": 200,"data": serializer.data,"msg": "Data Fetched Successfully"})
