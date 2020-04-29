@@ -17,6 +17,11 @@ headers = {
 
 
 def login(request):
+    '''
+    METHOD : POST
+    BODY : {'client_key': '', 'secret_key':''}
+    It is used to generate the token 
+    '''
     if request.method == "POST":
         client_key = request.POST.get('client_key')
         secret_key = request.POST.get('secret_key')

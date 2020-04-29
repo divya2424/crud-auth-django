@@ -24,13 +24,21 @@ from .tasks import fetchShipment,immediate_load
 #     arr.append(obj)
                     
 
+
+
 '''
-hjh
+PageNumberPagination help in getting the view to be rendered according to the page size defined 
+and also the param in which the value needs to be passed with a max page size
 '''
 class StandardResultsSetPagination(pagination.PageNumberPagination):
     page_size = 3
     page_size_query_param = 'page_size'
     max_page_size = 1000
+
+
+'''
+rest-framework have LISTAPIVIEW with the help of which we can display the pagination numbers on the screen
+'''
 class ShipmentView(generics.ListAPIView):
     queryset = ShipmentRetailer.objects.all()
     serializer_class = ShipmentRetailerSerializer

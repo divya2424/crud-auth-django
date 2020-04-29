@@ -3,14 +3,9 @@ from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 from celery.task.schedules import crontab
 import time
-
-
-# from authenticate.views import getToken
 import requests
 import json
 from django.conf import settings
-
-
 
 
 headers = {
@@ -22,6 +17,10 @@ headers = {
 logger = get_task_logger(__name__)
 
 
+
+'''
+Task to be performed when celery aligns it in messaging queue Rabbitmq
+'''
 @shared_task(name="Sum_of_digits")
 def celery_task(counter=1):
     email = "divyajain0124@gmail.com"

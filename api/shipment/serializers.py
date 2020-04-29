@@ -3,6 +3,9 @@ from rest_framework import serializers
 from .models import ShipmentItem, ShipmentRetailer
 
 
+'''
+Shipment Retailer Serializer
+'''
 class ShipmentRetailerSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     shipment_id = serializers.IntegerField()
@@ -10,7 +13,9 @@ class ShipmentRetailerSerializer(serializers.Serializer):
     transport_id = serializers.IntegerField()
 
 
-
+'''
+Shipment Item Serializer
+'''
 class ShipmentItemSerializer(serializers.Serializer):
     ordered_meals = ShipmentRetailerSerializer(many=True)
 

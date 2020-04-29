@@ -2,7 +2,9 @@ from django.test import TestCase,Client
 from django.urls import reverse
 from crud.models import Credential
 
-
+'''
+Test Cases For CRUD Views
+'''
 class CrudTestViews(TestCase):
     def test_project_list_GET(self):
         client = Client()

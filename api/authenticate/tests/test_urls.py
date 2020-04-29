@@ -2,6 +2,10 @@ from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from authenticate.views import login
 
+
+'''
+Test Cases For Autheticate URLS
+'''
 class TestUrls(SimpleTestCase):
 
     def test_authetication_url_is_resolved(self):

@@ -3,7 +3,6 @@ from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 from celery.task.schedules import crontab
 import time
-# from shipment.views import fetchShipment
 from crud.models import Credential
 from shipment.models import ShipmentRetailer, ShipmentItem
 import requests
@@ -22,7 +21,11 @@ headers = {
 logger = get_task_logger(__name__)
 
 
-
+'''
+Method is used to get the token by calling the bol.com api.
+PARMAS in kwargs- (client_key,secret_key,token)
+It is used as decorator 
+'''
 def getToken(func):
     def get_token(*args, **kwargs):
         print(func.__name__ + " was called")
@@ -30,8 +33,6 @@ def getToken(func):
             try:
                 client_id = kwargs['client_key']
                 secret_key = kwargs['secret_key']
-                print('client_id',client_id)
-                print('session',secret_key)
                 credential = Credential.objects.get(
                             client_key=client_id, 
                             secret_key=secret_key)
@@ -51,14 +52,19 @@ def getToken(func):
                 else:
                     kwargs['status_code'] = response.status_code
             except :
-                TestFailed("Credential Doesn't exist in the system")
+                raise("Credential Doesn't exist in the system")
         else:
-            TestFailed("Token Not Found! Try Login With Your credentials")
+            raise("Token Not Found! Try Login With Your credentials")
         return func(*args, **kwargs)
 
     return get_token
 
 
+'''
+Decorator - getToken
+METHOD - Fetching the shipment after recieving the token in the bol.com api
+It is a recursive function and it gets called till the time it recieve empty object of shipments in the api
+'''
 @getToken
 def fetchShipment(*args, **kwargs):
     URL = (settings.SHIPMENT_URL + "?fulfilment-method="+kwargs['fulfilment_method']+"&page="+ kwargs['pageNo'])
@@ -113,7 +119,11 @@ def fetchShipment(*args, **kwargs):
 
 
 
-
+'''
+Type - Periodic Task
+It is used to load the shipment in the database on daliy basis in every 5 hours to make sure that we are in sync 
+with the shipments.
+'''
 @periodic_task(run_every=(crontab(minute=0,hour='*/5')),name="load_shipment")
 def load_shipment(*args, **kwargs):
     credential =  Credential.objects.all()[:1].get()
@@ -144,7 +154,11 @@ def load_shipment(*args, **kwargs):
         return '{}Error occured Done!'
 
 
-
+'''
+Type - Task By celery
+It check if shipments already exist then it return ''
+Function Called - load_shipment
+'''
 @shared_task(name="immediate_loads", max_retries=9)
 def immediate_load(*args,**kwargs):
     shipment = ShipmentRetailer.objects.all()
@@ -153,4 +167,9 @@ def immediate_load(*args,**kwargs):
     else:
         load_shipment(*args, **kwargs)
 
+
+'''
+It is the task to run asyncronously by celery with a high priority as the celery gets in running mode
+and expires after a minute so that it doesn't get call all the time
+'''
 immediate_load.apply_async(expires=60,queue='priority.high')

@@ -2,6 +2,11 @@ from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from crud.views import CredentialView
 
+
+
+'''
+Test Cases For CRUD URLS
+'''
 class CredentialTestUrls(SimpleTestCase):
 
     def test_credential_url_is_resolved(self):
