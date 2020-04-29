@@ -26,10 +26,10 @@ Basic CRUD and authentication using external API in DJANGO. Integrated Celery wh
 1. python manage.py  test {app_name}
 
 # Steps to start and install a RabbitMQServer"
-# Installt
+# Install
 1. From the main documentation
 
-# start/stop the server
+# Start/Stop the server
 1. Start -sudo service rabbitmq-server start 
 2. Stop - sudo service rabbitmq-server stop
 3. Restart - sudo service rabbitmq-server restart
