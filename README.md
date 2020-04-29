@@ -23,10 +23,10 @@ Basic CRUD and authentication using external API in DJANGO. Integrated Celery wh
 1.  python manage.py createsuperuser
 
 # Run Test Case
-1. python manage.py {app_name}
+1. python manage.py  test {app_name}
 
 # Steps to start and install a RabbitMQServer"
-# Install
+# Installt
 1. From the main documentation
 
 # start/stop the server
