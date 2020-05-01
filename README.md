@@ -2,6 +2,8 @@
 
 Basic CRUD and authentication using external API in DJANGO. Integrated Celery which is used to perform an asynchronous task queue based on distributed message passing. Task queues are used as a strategy to distribute the workload between threads/machines.To work with Celery, we also need to install RabbitMQ because Celery requires an external solution to send and receive messages. Those solutions are called message brokers
 
+## Run the celery first by connecting rabbitmq to fetch the shipments else the shipments will appear empty
+
 # Steps to start the project and create enviornment :-
 
 1. virtualenv --python=python3 venv
