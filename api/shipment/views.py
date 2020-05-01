@@ -8,6 +8,8 @@ from django.conf import settings
 import requests
 import json
 from .tasks import fetchShipment,immediate_load
+from rest_framework import status
+
 
 
 # from django.core.paginator import Paginator
@@ -47,7 +49,10 @@ class ShipmentView(generics.ListAPIView):
 
 class ShipmentListing(APIView):
     def get(self, request, *args, **kwargs):
-        pk = self.kwargs.get('pk')
-        shipment = ShipmentRetailer.objects.filter(pk=pk)
-        serializer = ShipmentRetailerSerializer(shipment, many=True)
-        return Response({"error": False, "status_code": 200,"data": serializer.data,"msg": "Data Fetched Successfully"})
+        try:
+            pk = self.kwargs.get('pk')
+            shipment = ShipmentRetailer.objects.get(pk=pk)    
+            serializer = ShipmentRetailerSerializer(shipment)
+            return Response({"shipment": serializer.data})
+        except ShipmentRetailer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
