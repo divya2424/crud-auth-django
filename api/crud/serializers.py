@@ -9,7 +9,7 @@ Credential Serializer class created
 class CredentialSerializer(serializers.Serializer):
     client_key = serializers.CharField(max_length=120)
     secret_key = serializers.CharField(max_length=120)
-    id = serializers.IntegerField()
+    # id = serializers.IntegerField()
 
     '''
     When post method is used it will take the parameters client_id & secret_id
