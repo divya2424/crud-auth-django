@@ -47,9 +47,6 @@ def login(request):
                         "status_code": 200,
                         "msg": "Credentials Found! Token Saved Sucessfully",
                         "access_token": response["access_token"],
-                        "token_type": response["token_type"],
-                        "expires_in": response["expires_in"],
-                        "scope": response["scope"],
                     }
             else:
                 obj = {
@@ -72,6 +69,7 @@ def login(request):
         except Exception as e:
             obj = {
                             "error": True,
+                            "access_token":"",
                             "status_code": 500,
                             "msg": "Internal Server Error",
                 }
