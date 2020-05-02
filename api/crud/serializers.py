@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from .models import Credential
-
+import requests
+from django.conf import settings
+import json
+headers = {
+    "Content-Type": settings.CONTENT_TYPE,
+    "Accept": settings.ACCEPT[0],
+}
 
 
 '''
@@ -18,6 +24,21 @@ class CredentialSerializer(serializers.Serializer):
     else:
         create the object
     '''
+    def validate(self, data):
+        URL = (settings.TOKEN_URL
+                                + "&client_id="
+                                + data['client_key']
+                                + "&client_secret="
+                                + data['secret_key']
+                            )
+        response = requests.request(
+                                "POST", URL, data=json.dumps({}), headers=headers)
+        if response.status_code == 200:
+            return data
+        else:
+            raise serializers.ValidationError('Invalid Credentials')
+
+
     def create(self, validated_data):
         credential, created = Credential.objects.update_or_create(
         client_key=validated_data.get('client_key', None),

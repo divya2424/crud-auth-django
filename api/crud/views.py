@@ -45,7 +45,7 @@ class CredentialView(APIView):
         if serializer.is_valid(raise_exception=True):
             cred_saved = serializer.save()
             credential,created = cred_saved
-            return Response(created,status.HTTP_201_CREATED)
+            return Response({'created': created},status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     '''
