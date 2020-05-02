@@ -127,32 +127,36 @@ with the shipments.
 '''
 @periodic_task(run_every=(crontab(minute=0,hour='*/5')),name="load_shipment")
 def load_shipment(*args, **kwargs):
-    credential =  Credential.objects.all()[:1].get()
-    kwargs['client_key'] = credential.client_key
-    kwargs['secret_key'] = credential.secret_key
-    URL = (settings.TOKEN_URL
-                            + "&client_id="
-                            + kwargs['client_key']
-                            + "&client_secret="
-                            + kwargs['secret_key']
-                        )
-    response = requests.request(
-                            "POST", URL, data=json.dumps({}), headers=headers)
-    if response.status_code == 200:
-        response = json.loads(response.text)
-        kwargs['token'] = response["token_type"] + " " + response["access_token"]
-        logger.info("Task started",'eifiueshfieu')
-        shipmentArr = settings.SHIPMENT_ARR
-        if len(shipmentArr) > 0:
-            for key in shipmentArr:
-                kwargs['pageNo'] = "1"
-                kwargs['fulfilment_method'] = key
-                fetchShipment(*args, **kwargs)
-        logger.info('Task Ended')
-        return '{}No occured Done!'
+    try:
+        credential =  Credential.objects.all()[:1].get()
+        kwargs['client_key'] = credential.client_key
+        kwargs['secret_key'] = credential.secret_key
+        URL = (settings.TOKEN_URL
+                                + "&client_id="
+                                + kwargs['client_key']
+                                + "&client_secret="
+                                + kwargs['secret_key']
+                            )
+        response = requests.request(
+                                "POST", URL, data=json.dumps({}), headers=headers)
+        if response.status_code == 200:
+            response = json.loads(response.text)
+            kwargs['token'] = response["token_type"] + " " + response["access_token"]
+            logger.info("Task started",'eifiueshfieu')
+            shipmentArr = settings.SHIPMENT_ARR
+            if len(shipmentArr) > 0:
+                for key in shipmentArr:
+                    kwargs['pageNo'] = "1"
+                    kwargs['fulfilment_method'] = key
+                    fetchShipment(*args, **kwargs)
+            logger.info('Task Ended')
+            return 'Done!'
 
-    else:
-        return '{}Error occured Done!'
+        else:
+            logger.info('status_code',response)
+            return 'Error occured Done!'
+    except Credential.DoesNotExist:
+        return 'Credentials Doesnot Exist'
 
 
 '''
