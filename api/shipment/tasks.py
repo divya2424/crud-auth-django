@@ -156,6 +156,7 @@ def load_shipment(*args, **kwargs):
             logger.info('status_code',response)
             return 'Error occured Done!'
     except Credential.DoesNotExist:
+        logger.info("Credentials Doesn't Exist")
         return 'Credentials Doesnot Exist'
 
 
